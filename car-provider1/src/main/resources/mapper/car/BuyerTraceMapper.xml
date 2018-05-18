@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.BuyerTraceMapper" >
+  <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem" >
+    <id column="buyerTraceId" property="buyerTraceId" jdbcType="BIGINT" />
+    <result column="buyerName" property="buyerName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="carModelId" property="carModelId" jdbcType="BIGINT" />
+    <result column="carModelName" property="carModelName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="buyCityId" property="buyCityId" jdbcType="VARCHAR" />
+    <result column="buyCityName" property="buyCityName" jdbcType="VARCHAR" />
+    <result column="relationStatus" property="relationStatus" jdbcType="INTEGER" />
+    <result column="storeId" property="storeId" jdbcType="BIGINT" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    <result column="brandId" property="brandId" jdbcType="BIGINT" />
+    <result column="brandCnName" property="brandCnName" jdbcType="VARCHAR" />
+    <result column="brandEnName" property="brandEnName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="lastRemark" property="lastRemark" jdbcType="VARCHAR" />
+    <result column="lastEmployeeId" property="lastEmployeeId" jdbcType="BIGINT" />
+    <result column="lastEmployeeName" property="lastEmployeeName" jdbcType="VARCHAR" />
+    <result column="lastTime" property="lastTime" jdbcType="VARCHAR" />
+    <result column="installmentId" property="installmentId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    buyerTraceId, buyerName, mobile, carModelId, carModelName, sex, buyCityId, buyCityName, 
+    relationStatus, storeId, storeName, brandId, brandCnName, brandEnName, status, userId, 
+    sn, createTime, lastRemark, lastEmployeeId, lastEmployeeName, lastTime, installmentId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from buyerTrace
+    where buyerTraceId = #{buyerTraceId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from buyerTrace
+    where buyerTraceId = #{buyerTraceId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hschefu.common.DataItem" >
+    insert into buyerTrace (buyerTraceId, buyerName, mobile, 
+      carModelId, carModelName, sex, 
+      buyCityId, buyCityName, relationStatus, 
+      storeId, storeName, brandId, 
+      brandCnName, brandEnName, status, 
+      userId, sn, createTime, 
+      lastRemark, lastEmployeeId, lastEmployeeName, 
+      lastTime, installmentId)
+    values (#{buyerTraceId,jdbcType=BIGINT}, #{buyerName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{carModelId,jdbcType=BIGINT}, #{carModelName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{buyCityId,jdbcType=VARCHAR}, #{buyCityName,jdbcType=VARCHAR}, #{relationStatus,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=BIGINT}, #{storeName,jdbcType=VARCHAR}, #{brandId,jdbcType=BIGINT}, 
+      #{brandCnName,jdbcType=VARCHAR}, #{brandEnName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{userId,jdbcType=BIGINT}, #{sn,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastRemark,jdbcType=VARCHAR}, #{lastEmployeeId,jdbcType=BIGINT}, #{lastEmployeeName,jdbcType=VARCHAR}, 
+      #{lastTime,jdbcType=VARCHAR}, #{installmentId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hschefu.common.DataItem" >
+    insert into buyerTrace
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buyerTraceId != null" >
+        buyerTraceId,
+      </if>
+      <if test="buyerName != null" >
+        buyerName,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="carModelId != null" >
+        carModelId,
+      </if>
+      <if test="carModelName != null" >
+        carModelName,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="buyCityId != null" >
+        buyCityId,
+      </if>
+      <if test="buyCityName != null" >
+        buyCityName,
+      </if>
+      <if test="relationStatus != null" >
+        relationStatus,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="storeName != null" >
+        storeName,
+      </if>
+      <if test="brandId != null" >
+        brandId,
+      </if>
+      <if test="brandCnName != null" >
+        brandCnName,
+      </if>
+      <if test="brandEnName != null" >
+        brandEnName,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="lastRemark != null" >
+        lastRemark,
+      </if>
+      <if test="lastEmployeeId != null" >
+        lastEmployeeId,
+      </if>
+      <if test="lastEmployeeName != null" >
+        lastEmployeeName,
+      </if>
+      <if test="lastTime != null" >
+        lastTime,
+      </if>
+      <if test="installmentId != null" >
+        installmentId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buyerTraceId != null" >
+        #{buyerTraceId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerName != null" >
+        #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelId != null" >
+        #{carModelId,jdbcType=BIGINT},
+      </if>
+      <if test="carModelName != null" >
+        #{carModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCityId != null" >
+        #{buyCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCityName != null" >
+        #{buyCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationStatus != null" >
+        #{relationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="brandCnName != null" >
+        #{brandCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandEnName != null" >
+        #{brandEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastRemark != null" >
+        #{lastRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEmployeeId != null" >
+        #{lastEmployeeId,jdbcType=BIGINT},
+      </if>
+      <if test="lastEmployeeName != null" >
+        #{lastEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="installmentId != null" >
+        #{installmentId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem" >
+    update buyerTrace
+    <set >
+      <if test="buyerName != null" >
+        buyerName = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelId != null" >
+        carModelId = #{carModelId,jdbcType=BIGINT},
+      </if>
+      <if test="carModelName != null" >
+        carModelName = #{carModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCityId != null" >
+        buyCityId = #{buyCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCityName != null" >
+        buyCityName = #{buyCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationStatus != null" >
+        relationStatus = #{relationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="storeName != null" >
+        storeName = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brandId = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="brandCnName != null" >
+        brandCnName = #{brandCnName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandEnName != null" >
+        brandEnName = #{brandEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastRemark != null" >
+        lastRemark = #{lastRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastEmployeeId != null" >
+        lastEmployeeId = #{lastEmployeeId,jdbcType=BIGINT},
+      </if>
+      <if test="lastEmployeeName != null" >
+        lastEmployeeName = #{lastEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        lastTime = #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="installmentId != null" >
+        installmentId = #{installmentId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where buyerTraceId = #{buyerTraceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem" >
+    update buyerTrace
+    set buyerName = #{buyerName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      carModelId = #{carModelId,jdbcType=BIGINT},
+      carModelName = #{carModelName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      buyCityId = #{buyCityId,jdbcType=VARCHAR},
+      buyCityName = #{buyCityName,jdbcType=VARCHAR},
+      relationStatus = #{relationStatus,jdbcType=INTEGER},
+      storeId = #{storeId,jdbcType=BIGINT},
+      storeName = #{storeName,jdbcType=VARCHAR},
+      brandId = #{brandId,jdbcType=BIGINT},
+      brandCnName = #{brandCnName,jdbcType=VARCHAR},
+      brandEnName = #{brandEnName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=BIGINT},
+      sn = #{sn,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      lastRemark = #{lastRemark,jdbcType=VARCHAR},
+      lastEmployeeId = #{lastEmployeeId,jdbcType=BIGINT},
+      lastEmployeeName = #{lastEmployeeName,jdbcType=VARCHAR},
+      lastTime = #{lastTime,jdbcType=VARCHAR},
+      installmentId = #{installmentId,jdbcType=BIGINT}
+    where buyerTraceId = #{buyerTraceId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 买车预约列表页面 （包括查询功能）-->
+  <select id="getBuyerByPager" resultType="com.hschefu.common.DataItem">
+		select * from buyerTrace   where 1=1 
+         <if test="mobile != null and mobile !=''">
+        	 and mobile = #{mobile}
+         </if>
+         <if test="buyCityName != null and buyCityName !=''">
+        	 and buyCityName = #{buyCityName}
+        </if> 
+         LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	
+	<select id="getBuyerByPagerCount" resultType="java.lang.Long"
+		parameterType="com.hschefu.common.DataItem">
+		select 
+		count(1)
+		from buyerTrace   where 1=1 
+         <if test="mobile != null and mobile !=''">
+        	 and mobile = #{mobile}
+         </if>
+         <if test="buyCityName != null and buyCityName !=''">
+        	 and buyCityName = #{buyCityName}
+        </if> 
+	</select>
+  
+  
+</mapper>

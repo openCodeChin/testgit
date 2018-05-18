@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem" >
+    <id column="questionId" property="questionId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="carId" property="carId" jdbcType="BIGINT" />
+    <result column="storeId" property="storeId" jdbcType="BIGINT" />
+    <result column="questionTypeId" property="questionTypeId" jdbcType="BIGINT" />
+    <result column="questionTypeName" property="questionTypeName" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    questionId, title, userId, userName, mobile, carId, storeId, questionTypeId, questionTypeName,content
+  </sql>
+
+
+  
+  <select id="getQuestionByPager" resultMap="BaseResultMap"
+          parameterType="com.hschefu.common.DataItem">
+    select
+    <include refid="Base_Column_List"/>
+    from question
+    where 1=1
+
+    <if test="title!=null and title != ''">
+      and title    like concat('%', #{title} ,'%')
+    </if>
+    <if test="questionTypeId!=null ">
+      and questionTypeId=#{questionTypeId}
+    </if>
+
+    <choose>
+      <when test="sidx!=null and sidx!=''">
+        order by ${sidx} ${sord}
+      </when>
+      <otherwise>
+        order by questionTypeId
+      </otherwise>
+    </choose>
+
+    LIMIT #{offset}, #{pageSize}
+  </select>
+
+
+  <!--按照id删除多条信息-->
+  <delete id="delQuestionById" parameterType="java.lang.Long">
+    delete from question
+    where questionId in
+
+    <foreach collection="questionIdsList" item="questionId" index="index"
+             open="(" close=")" separator=",">
+      #{questionId}
+    </foreach>
+
+  </delete>
+
+  <select id="getQuestionByPagerCount"
+          resultType="java.lang.Long"
+          parameterType="com.hschefu.common.DataItem">
+    select
+    count(1)
+    from question
+
+    where 1=1
+
+
+    <if test="title!=null and title != ''">
+      and title    like concat('%', #{title} ,'%')
+    </if>
+    <if test="questionTypeId!=null ">
+      and  questionTypeId=#{questionTypeId}
+    </if>
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+
+    from question
+    where questionId = #{questionid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from question
+    where questionId = #{questionid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hschefu.common.DataItem" >
+    insert into question (questionId, title, userId, 
+      userName, mobile, carId, 
+      storeId, questionTypeId, questionTypeName, 
+      content)
+    values (#{questionid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT}, 
+      #{username,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{carid,jdbcType=BIGINT}, 
+      #{storeid,jdbcType=BIGINT}, #{questiontypeid,jdbcType=BIGINT}, #{questiontypename,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hschefu.common.DataItem" >
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="carId != null" >
+        carId,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="questionTypeId != null" >
+        questionTypeId,
+      </if>
+      <if test="questionTypeName != null" >
+        questionTypeName,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="userName != null" >
+        #{userName},
+      </if>
+      <if test="mobile != null" >
+        #{mobile},
+      </if>
+      <if test="carId != null" >
+        #{carId},
+      </if>
+      <if test="storeId != null" >
+        #{storeId},
+      </if>
+      <if test="questionTypeId != null" >
+        #{questionTypeId},
+      </if>
+      <if test="questionTypeName != null" >
+        #{questionTypeName},
+      </if>
+      <if test="content != null" >
+        #{content},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem" >
+    update question
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        carId = #{carId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="questionTypeId != null" >
+        questionTypeId = #{questionTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="questionTypeName != null" >
+        questionTypeName = #{questionTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where questionId = #{questionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hschefu.common.DataItem" >
+    update question
+    set title = #{title,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=BIGINT},
+      userName = #{username,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      carId = #{carid,jdbcType=BIGINT},
+      storeId = #{storeid,jdbcType=BIGINT},
+      questionTypeId = #{questiontypeid,jdbcType=BIGINT},
+      questionTypeName = #{questiontypename,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where questionId = #{questionid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem" >
+    update question
+    set title = #{title,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=BIGINT},
+      userName = #{username,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      carId = #{carid,jdbcType=BIGINT},
+      storeId = #{storeid,jdbcType=BIGINT},
+      questionTypeId = #{questiontypeid,jdbcType=BIGINT},
+      questionTypeName = #{questiontypename,jdbcType=VARCHAR}
+    where questionId = #{questionid,jdbcType=BIGINT}
+  </update>
+</mapper>

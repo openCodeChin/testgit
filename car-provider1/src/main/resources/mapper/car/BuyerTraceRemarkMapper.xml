@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.BuyerTraceRemarkMapper" >
+  <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem" >
+    <id column="buyerTraceRemarkId" property="buyerTraceRemarkId" jdbcType="BIGINT" />
+    <result column="buyerTraceId" property="buyerTraceId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="employeeId" property="employeeId" jdbcType="BIGINT" />
+    <result column="employeeName" property="employeeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    buyerTraceRemarkId, buyerTraceId, remark, createTime, employeeId, employeeName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from buyerTraceRemark
+    where buyerTraceRemarkId = #{buyerTraceRemarkId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from buyerTraceRemark
+    where buyerTraceRemarkId = #{buyerTraceRemarkId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hschefu.common.DataItem" >
+    insert into buyerTraceRemark (buyerTraceRemarkId, buyerTraceId, remark, 
+      createTime, employeeId, employeeName
+      )
+    values (#{buyerTraceRemarkId,jdbcType=BIGINT}, #{buyerTraceId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{employeeId,jdbcType=BIGINT}, #{employeeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hschefu.common.DataItem" >
+    insert into buyerTraceRemark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buyerTraceRemarkId != null" >
+        buyerTraceRemarkId,
+      </if>
+      <if test="buyerTraceId != null" >
+        buyerTraceId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="employeeId != null" >
+        employeeId,
+      </if>
+      <if test="employeeName != null" >
+        employeeName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buyerTraceRemarkId != null" >
+        #{buyerTraceRemarkId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerTraceId != null" >
+        #{buyerTraceId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="employeeName != null" >
+        #{employeeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem" >
+    update buyerTraceRemark
+    <set >
+      <if test="buyerTraceId != null" >
+        buyerTraceId = #{buyerTraceId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeId != null" >
+        employeeId = #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="employeeName != null" >
+        employeeName = #{employeeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where buyerTraceRemarkId = #{buyerTraceRemarkId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem" >
+    update buyerTraceRemark
+    set buyerTraceId = #{buyerTraceId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      employeeId = #{employeeId,jdbcType=BIGINT},
+      employeeName = #{employeeName,jdbcType=VARCHAR}
+    where buyerTraceRemarkId = #{buyerTraceRemarkId,jdbcType=BIGINT}
+  </update>
+</mapper>

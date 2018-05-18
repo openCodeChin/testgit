@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.DictMapper">
+    <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem">
+        <id column="dictId" property="dictId" jdbcType="BIGINT"/>
+        <result column="dictKey" property="dictKey" jdbcType="VARCHAR"/>
+        <result column="dictValue" property="dictValue" jdbcType="VARCHAR"/>
+        <result column="dictType" property="dictType" jdbcType="INTEGER"/>
+        <result column="dictTypeSort" property="dictTypeSort" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    dictId, dictKey, dictValue, dictType, dictTypeSort
+  </sql>
+
+
+    <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dict
+        where dictType = #{dictType,jdbcType=BIGINT}
+        ORDER BY dictTypeSort
+    </select>
+
+
+    <select id="getDictByPager" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        <include refid="Base_Column_List"/>
+        from dict
+        where 1=1
+
+
+        <choose>
+            <when test="getDictByKey !=null and getDictByKey!=''">
+                and dictType = #{dictKey ,jdbcType=INTEGER}
+            </when>
+            <otherwise>
+
+                <if test="dictKey !=null and dictKey!=''">
+                    and dictKey = #{dictKey}
+                </if>
+                <if test="dictValue!=null and dictValue!=''">
+                    and dictValue = #{dictValue}
+                </if>
+
+
+                <choose>
+                    <when test="dictType !=null">
+                        and dictType = #{dictType}
+                    </when>
+                    <otherwise>
+                        and dictType =1
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sidx!=null and sidx!=''">
+                order by ${sidx} ${sord}
+            </when>
+            <otherwise>
+                order by dictTypeSort
+            </otherwise>
+        </choose>
+
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getDictByPagerCount"
+            resultType="java.lang.Long"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        count(1)
+        from dict
+
+        where 1=1
+
+        <choose>
+            <when test="getDictByKey !=null and getDictByKey!=''">
+                and dictType = #{dictKey ,jdbcType=INTEGER}
+            </when>
+            <otherwise>
+
+                <if test="dictKey !=null and dictKey!=''">
+                    and dictKey = #{dictKey}
+                </if>
+                <if test="dictValue!=null and dictValue!=''">
+                    and dictValue = #{dictValue}
+                </if>
+
+
+                <choose>
+                    <when test="dictType !=null">
+                        and dictType = #{dictType}
+                    </when>
+                    <otherwise>
+                        and dictType =1
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dict
+    where dictId = #{dictid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.hschefu.common.DataItem">
+    insert into dict (dictId, dictKey, dictValue, 
+      dictType, dictTypeSort)
+    values (#{dictid,jdbcType=BIGINT}, #{dictkey,jdbcType=VARCHAR}, #{dictvalue,jdbcType=VARCHAR}, 
+      #{dicttype,jdbcType=INTEGER}, #{dicttypesort,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hschefu.common.DataItem">
+        insert into dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dictid != null">
+                dictId,
+            </if>
+            <if test="dictkey != null">
+                dictKey,
+            </if>
+            <if test="dictvalue != null">
+                dictValue,
+            </if>
+            <if test="dicttype != null">
+                dictType,
+            </if>
+            <if test="dicttypesort != null">
+                dictTypeSort,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dictid != null">
+                #{dictid,jdbcType=BIGINT},
+            </if>
+            <if test="dictkey != null">
+                #{dictkey,jdbcType=VARCHAR},
+            </if>
+            <if test="dictvalue != null">
+                #{dictvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="dicttype != null">
+                #{dicttype,jdbcType=INTEGER},
+            </if>
+            <if test="dicttypesort != null">
+                #{dicttypesort,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem">
+        update dict
+        <set>
+            <if test="dictkey != null">
+                dictKey = #{dictkey,jdbcType=VARCHAR},
+            </if>
+            <if test="dictvalue != null">
+                dictValue = #{dictvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="dicttype != null">
+                dictType = #{dicttype,jdbcType=INTEGER},
+            </if>
+            <if test="dicttypesort != null">
+                dictTypeSort = #{dicttypesort,jdbcType=INTEGER},
+            </if>
+        </set>
+        where dictId = #{dictid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem">
+    update dict
+    set dictKey = #{dictkey,jdbcType=VARCHAR},
+      dictValue = #{dictvalue,jdbcType=VARCHAR},
+      dictType = #{dicttype,jdbcType=INTEGER},
+      dictTypeSort = #{dicttypesort,jdbcType=INTEGER}
+    where dictId = #{dictid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="com.hschefu.car.provider.repository.mapper.CarSystemMapper">
+    <resultMap id="BaseResultMap"
+               type="com.hschefu.common.DataItem">
+        <id column="carSystemId" property="carsystemid" jdbcType="BIGINT"/>
+        <result column="carSystemName" property="carsystemname"
+                jdbcType="VARCHAR"/>
+        <result column="carSystemCategory" property="carsystemcategory"
+                jdbcType="VARCHAR"/>
+        <result column="brandId" property="brandid" jdbcType="BIGINT"/>
+        <result column="brandCnName" property="brandcnname"
+                jdbcType="VARCHAR"/>
+        <result column="brandEnName" property="brandenname"
+                jdbcType="VARCHAR"/>
+        <result column="createTime" property="createtime"
+                jdbcType="TIMESTAMP"/>
+        <result column="modifyTime" property="modifytime"
+                jdbcType="TIMESTAMP"/>
+        <result column="sortNumber" property="sortnumber"
+                jdbcType="INTEGER"/>
+
+
+    </resultMap>
+    <sql id="Base_Column_List">
+		carSystemId, carSystemName, carSystemCategory, brandId, brandCnName,createTime,
+		modifyTime,sortNumber, brandEnName
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from carSystem
+        where carSystemId = #{carsystemid,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getCarSystemByPager" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        *
+        from carSystem
+        where 1=1
+        <if test="carSystemName!=null and carSystemName!=''">
+            and carSystemName like concat('%', #{carSystemName} ,'%')
+        </if>
+        <if test="carSystemCategory!=null and carSystemCategory!=''">
+            and carSystemCategory = #{carSystemCategory}
+        </if>
+
+
+        <choose>
+            <when test="sidx!=null and sidx!=''">
+                order by ${sidx} ${sord}
+            </when>
+            <otherwise>
+                order by sortNumber
+            </otherwise>
+        </choose>
+
+
+        <!-- 判断是否分页 -->
+        <if test="isPager==null or isPager==''">
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCarSystemByPagerCount"
+            resultType="java.lang.Long"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        count(1)
+        from carSystem
+        where 1=1
+        <if test="carSystemName!=null and carSystemName!=''">
+            and carSystemName like concat('%', #{carSystemName} ,'%')
+        </if>
+        <if test="carSystemCategory!=null and carSystemCategory!=''">
+            and carSystemCategory = #{carSystemCategory}
+        </if>
+    </select>
+
+    <delete id="delCarSystemById" parameterType="java.lang.Long">
+		delete from carSystem
+		where carSystemId = #{carSystemId,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.hschefu.common.DataItem">
+		insert into carSystem (carSystemId, carSystemName, carSystemCategory,
+		brandId, brandCnName, brandEnName
+		)
+		values (#{carsystemid,jdbcType=BIGINT}, #{carsystemname,jdbcType=VARCHAR},
+		#{carsystemcategory,jdbcType=VARCHAR},
+		#{brandid,jdbcType=BIGINT}, #{brandcnname,jdbcType=VARCHAR}, #{brandenname,jdbcType=VARCHAR}
+		)
+	</insert>
+    <insert id="insertSelective"
+            parameterType="com.hschefu.common.DataItem">
+        insert into carSystem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="carSystemName != null">
+                carSystemName,
+            </if>
+            <if test="carSystemCategory != null">
+                carSystemCategory,
+            </if>
+            <if test="brandId != null">
+                brandId,
+            </if>
+            <if test="brandCnName != null">
+                brandCnName,
+            </if>
+            <if test="brandEnName != null">
+                brandEnName,
+            </if>
+            createTime,
+            <if test="sortNumber != null">
+                sortNumber,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="carSystemName != null">
+                #{carSystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="carSystemCategory != null">
+                #{carSystemCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="brandCnName != null">
+                #{brandCnName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandEnName != null">
+                #{brandEnName,jdbcType=VARCHAR},
+            </if>
+            now(),
+            <if test="sortNumber != null">
+                #{sortNumber},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.hschefu.common.DataItem">
+        update carSystem
+        <set>
+            <if test="carSystemName != null">
+                carSystemName = #{carSystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="carSystemCategory != null">
+                carSystemCategory = #{carSystemCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brandId = #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="brandCnName != null">
+                brandCnName = #{brandCnName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandEnName != null">
+                brandEnName = #{brandEnName,jdbcType=VARCHAR},
+            </if>
+            <if test="sortNumber != null">
+                sortNumber = #{sortNumber,jdbcType=INTEGER},
+            </if>
+
+            modifyTime=now(),
+        </set>
+        where carSystemId = #{carSystemId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.hschefu.common.DataItem">
+		update carSystem
+		set carSystemName = #{carsystemname,jdbcType=VARCHAR},
+		carSystemCategory = #{carsystemcategory,jdbcType=VARCHAR},
+		brandId = #{brandid,jdbcType=BIGINT},
+		brandCnName = #{brandcnname,jdbcType=VARCHAR},
+		brandEnName = #{brandenname,jdbcType=VARCHAR}
+		where carSystemId = #{carsystemid,jdbcType=BIGINT}
+	</update>
+</mapper>

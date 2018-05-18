@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.hschefu.car.provider.repository.mapper.ManufacturerMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hschefu.common.DataItem">
+		<id column="manufacturerId" property="manufacturerid"
+			jdbcType="BIGINT" />
+		<result column="manufacturerCnName"
+			property="manufacturercnname" jdbcType="VARCHAR" />
+		<result column="manufacturerEnName"
+			property="manufacturerenname" jdbcType="VARCHAR" />
+		<result column="manufacturerStatus"
+			property="manufacturerstatus" jdbcType="INTEGER" />
+		<result column="manufacturerCategory"
+			property="manufacturercategory" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime"
+			jdbcType="TIMESTAMP" />
+        <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />		
+	</resultMap>
+	<sql id="Base_Column_List">
+		manufacturerId, manufacturerCnName, manufacturerEnName, manufacturerStatus,
+		manufacturerCategory,createTime,modifyTime
+	</sql>
+<!-- 分頁查詢 -->
+	<select id="getManufacturerByPager" resultMap="BaseResultMap"
+		parameterType="com.hschefu.common.DataItem">
+		select
+		<include refid="Base_Column_List" />
+		from manufacturer where 1=1
+		<if test="manufacturerCnName != null and manufacturerCnName != ''">
+			and manufacturerCnName like concat('%', #{manufacturerCnName} ,'%')
+		</if>
+		<if
+			test="manufacturerCategory != null and manufacturerCategory != ''">
+			and manufacturerCategory = #{manufacturerCategory}
+		</if>
+		 <if test="sidx!=null and sidx!=''">
+			order by ${sidx} ${sord}
+			
+		 </if>
+			
+		LIMIT #{offset}, #{pageSize}
+	</select>
+<!-- 查詢总数 -->
+	<select id="getManufacturerByPagerCount"
+		resultType="java.lang.Long" parameterType="com.hschefu.common.DataItem">
+		select
+		count(1)
+		from manufacturer where 1=1
+		<if test="manufacturerCnName != null and manufacturerCnName != ''">
+			and manufacturerCnName like concat('%', #{manufacturerCnName} ,'%')
+		</if>
+		<if
+			test="manufacturerCategory != null and manufacturerCategory != ''">
+			and manufacturerCategory = #{manufacturerCategory}
+		</if>
+
+
+	</select>
+
+<!-- 按id查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from manufacturer
+		where manufacturerId = #{manufacturerId,jdbcType=BIGINT}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from manufacturer
+		where manufacturerId = #{manufacturerid,jdbcType=BIGINT}
+	</delete>
+
+
+
+	<insert id="insert" parameterType="com.hschefu.common.DataItem">
+		insert into manufacturer (manufacturerId, manufacturerCnName,
+		manufacturerEnName, manufacturerStatus,
+		manufacturerCategory)
+		values (#{manufacturerid,jdbcType=BIGINT},
+		#{manufacturercnname,jdbcType=VARCHAR},
+		#{manufacturerenname,jdbcType=VARCHAR},
+		#{manufacturerstatus,jdbcType=INTEGER},
+		#{manufacturercategory,jdbcType=VARCHAR})
+	</insert>
+
+
+	<insert id="insertSelective"
+		parameterType="com.hschefu.common.DataItem">
+		insert into manufacturer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			
+			<if test="manufacturerCnName != null">
+				manufacturerCnName,
+			</if>
+			<if test="manufacturerEnName != null">
+				manufacturerEnName,
+			</if>
+			<if test="manufacturerStatus != null">
+				manufacturerStatus,
+			</if>
+			<if test="manufacturerCategory != null">
+				manufacturerCategory,
+			</if>
+				createTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="manufacturerCnName != null">
+				#{manufacturerCnName},
+			</if>
+			<if test="manufacturerEnName != null">
+				#{manufacturerEnName},
+			</if>
+			<if test="manufacturerStatus != null">
+				#{manufacturerStatus},
+			</if>
+			<if test="manufacturerCategory != null">
+				#{manufacturerCategory},
+			</if>
+			now(),
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.hschefu.common.DataItem">
+		update manufacturer
+		<set>
+			<if test="manufacturerCnName != null and manufacturerCnName!=''">
+				manufacturerCnName = #{manufacturerCnName,jdbcType=VARCHAR},
+			</if>
+			<if test="manufacturerEnName != null and manufacturerEnName!=''">
+				manufacturerEnName = #{manufacturerEnName,jdbcType=VARCHAR},
+			</if>
+			<if test="manufacturerStatus != null">
+				manufacturerStatus = #{manufacturerStatus,jdbcType=INTEGER},
+			</if>
+			<if test="manufacturerCategory != null and manufacturerCategory!=''">
+				manufacturerCategory = #{manufacturerCategory,jdbcType=VARCHAR},
+			</if>
+			modifyTime=now(),
+		</set>
+		where manufacturerId = #{manufacturerId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.hschefu.common.DataItem">
+		update manufacturer
+		set manufacturerCnName = #{manufacturercnname,jdbcType=VARCHAR},
+		manufacturerEnName = #{manufacturerenname,jdbcType=VARCHAR},
+		manufacturerStatus = #{manufacturerstatus,jdbcType=INTEGER},
+		manufacturerCategory = #{manufacturercategory,jdbcType=VARCHAR}
+		where manufacturerId = #{manufacturerid,jdbcType=BIGINT}
+	</update>
+</mapper>

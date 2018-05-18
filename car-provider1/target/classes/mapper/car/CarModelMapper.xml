@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.CarModelMapper">
+    <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem">
+        <id column="carModelId" property="carmodelid" jdbcType="BIGINT"/>
+        <result column="carModelName" property="carmodelname" jdbcType="VARCHAR"/>
+        <result column="brandId" property="brandid" jdbcType="BIGINT"/>
+        <result column="brandEnName" property="brandenname" jdbcType="VARCHAR"/>
+        <result column="brandCnName" property="brandcnname" jdbcType="VARCHAR"/>
+        <result column="carSystemId" property="carsystemid" jdbcType="BIGINT"/>
+        <result column="carSystemName" property="carsystemname" jdbcType="VARCHAR"/>
+        <result column="carSystemCategory" property="carsystemcategory" jdbcType="VARCHAR"/>
+        <result column="carSystemYearId" property="carsystemyearid" jdbcType="BIGINT"/>
+        <result column="Year" property="year" jdbcType="VARCHAR"/>
+        <result column="Price" property="price" jdbcType="DOUBLE"/>
+        <result column="seatNumber" property="seatnumber" jdbcType="INTEGER"/>
+        <result column="images" property="images" jdbcType="VARCHAR"/>
+        <result column="gearbox" property="gearbox" jdbcType="VARCHAR"/>
+        <result column="displacement" property="displacement" jdbcType="VARCHAR"/>
+        <result column="fuelType" property="fueltype" jdbcType="VARCHAR"/>
+        <result column="emission" property="emission" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createtime" jdbcType="TIMESTAMP"/>
+        <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP"/>
+        <result column="configureValue" property="configurevalue" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    carModelId, carModelName, brandId, brandEnName, brandCnName, carSystemId, carSystemName, 
+    carSystemCategory, carSystemYearId, Year, Price, seatNumber, images, gearbox, displacement, 
+    fuelType, emission, createTime, modifyTime,configureValue
+  </sql>
+
+
+    <select id="getCarModelByPager" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        <include refid="Base_Column_List"/>
+        from carModel
+        where 1=1
+        <if test="carModelName !=null and carModelName!=''">
+            and carModelName like concat('%', #{carModelName} ,'%')
+        </if>
+        <if test="seatNumber!=null and seatNumber!=''">
+            and seatNumber = #{seatNumber}
+        </if>
+        <if test="gearbox!=null and gearbox!=''">
+            and gearbox = #{gearbox}
+        </if>
+        <if test="fuelType!=null and fuelType!=''">
+            and fuelType = #{fuelType}
+        </if>
+
+
+        <choose>
+            <when test="sidx!=null and sidx!=''">
+                order by ${sidx} ${sord}
+            </when>
+            <otherwise>
+                order by createTime
+            </otherwise>
+        </choose>
+
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getCarModelByPagerCount"
+            resultType="java.lang.Long"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        count(1)
+        from carModel
+        where 1=1
+        <if test="carModelName !=null and carModelName!=''">
+            and carModelName like concat('%', #{carModelName} ,'%')
+        </if>
+        <if test="seatNumber!=null and seatNumber!=''">
+            and seatNumber = #{seatNumber}
+        </if>
+        <if test="gearbox!=null and gearbox!=''">
+            and gearbox = #{gearbox}
+        </if>
+        <if test="fuelType!=null and fuelType!=''">
+            and fuelType = #{fuelType}
+        </if>
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from carModel
+        where carModelId = #{carmodelid,jdbcType=BIGINT}
+    </select>
+    <delete id="delCarModelById" parameterType="java.lang.Long">
+    delete from carModel
+    where carModelId = #{carModelId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.hschefu.common.DataItem">
+    insert into carModel (carModelId, carModelName, brandId, 
+      brandEnName, brandCnName, carSystemId, 
+      carSystemName, carSystemCategory, carSystemYearId, 
+      Year, Price, seatNumber, 
+      images, gearbox, displacement, 
+      fuelType, emission, createTime, 
+      modifyTime, configureValue)
+    values (#{carmodelid,jdbcType=BIGINT}, #{carmodelname,jdbcType=VARCHAR}, #{brandid,jdbcType=BIGINT}, 
+      #{brandenname,jdbcType=VARCHAR}, #{brandcnname,jdbcType=VARCHAR}, #{carsystemid,jdbcType=BIGINT}, 
+      #{carsystemname,jdbcType=VARCHAR}, #{carsystemcategory,jdbcType=VARCHAR}, #{carsystemyearid,jdbcType=BIGINT}, 
+      #{year,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{seatnumber,jdbcType=INTEGER}, 
+      #{images,jdbcType=VARCHAR}, #{gearbox,jdbcType=VARCHAR}, #{displacement,jdbcType=VARCHAR}, 
+      #{fueltype,jdbcType=VARCHAR}, #{emission,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{configurevalue,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hschefu.common.DataItem">
+        insert into carModel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="carModelName != null">
+                carModelName,
+            </if>
+            <if test="brandId != null">
+                brandId,
+            </if>
+            <if test="brandEnName != null">
+                brandEnName,
+            </if>
+            <if test="brandCnName != null">
+                brandCnName,
+            </if>
+            <if test="carSystemId != null">
+                carSystemId,
+            </if>
+            <if test="carSystemName != null">
+                carSystemName,
+            </if>
+            <if test="carSystemCategory != null">
+                carSystemCategory,
+            </if>
+            <if test="carSystemYearId != null">
+                carSystemYearId,
+            </if>
+            <if test="Year != null">
+                Year,
+            </if>
+            <if test="Price != null">
+                Price,
+            </if>
+            <if test="seatNumber != null">
+                seatNumber,
+            </if>
+            <if test="images != null">
+                images,
+            </if>
+            <if test="gearbox != null">
+                gearbox,
+            </if>
+            <if test="displacement != null">
+                displacement,
+            </if>
+            <if test="fuelType != null">
+                fuelType,
+            </if>
+            <if test="emission != null">
+                emission,
+            </if>
+            createTime,
+            <if test="modifytime != null">
+                modifyTime,
+            </if>
+            <if test="configureValue != null">
+                configureValue,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carModelName != null">
+                #{carModelName},
+            </if>
+            <if test="brandId != null">
+                #{brandId},
+            </if>
+            <if test="brandEnName != null">
+                #{brandEnName},
+            </if>
+            <if test="brandCnName != null">
+                #{brandCnName},
+            </if>
+            <if test="carSystemId != null">
+                #{carSystemId},
+            </if>
+            <if test="carSystemName != null">
+                #{carSystemName},
+            </if>
+            <if test="carSystemCategory != null">
+                #{carSystemCategory},
+            </if>
+            <if test="carSystemYearId != null">
+                #{carSystemYearId},
+            </if>
+            <if test="Year != null">
+                #{Year},
+            </if>
+            <if test="Price != null">
+                #{Price},
+            </if>
+            <if test="seatNumber != null">
+                #{seatNumber},
+            </if>
+            <if test="images != null">
+                #{images},
+            </if>
+            <if test="gearbox != null">
+                #{gearbox},
+            </if>
+            <if test="displacement != null">
+                #{displacement},
+            </if>
+            <if test="fuelType != null">
+                #{fuelType},
+            </if>
+            <if test="emission != null">
+                #{emission},
+            </if>
+            now(),
+            <if test="modifytime != null">
+                #{modifyTime},
+            </if>
+            <if test="configureValue != null">
+                #{configureValue},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem">
+        update carModel
+        <set>
+            <if test="carModelName != null">
+                carModelName = #{carModelName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brandId = #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="brandEnName != null">
+                brandEnName = #{brandEnName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandCnName != null">
+                brandCnName = #{brandCnName,jdbcType=VARCHAR},
+            </if>
+            <if test="carSystemId != null">
+                carSystemId = #{carSystemId,jdbcType=BIGINT},
+            </if>
+            <if test="carSystemName != null">
+                carSystemName = #{carSystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="carSystemCategory != null">
+                carSystemCategory = #{carSystemCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="carSystemYearId != null">
+                carSystemYearId = #{carSystemYearId,jdbcType=BIGINT},
+            </if>
+            <if test="Year != null">
+                Year = #{Year,jdbcType=VARCHAR},
+            </if>
+            <if test="Price != null">
+                Price = #{Price,jdbcType=DOUBLE},
+            </if>
+            <if test="seatNumber != null">
+                seatNumber = #{seatNumber,jdbcType=INTEGER},
+            </if>
+            <if test="images != null">
+                images = #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="gearbox != null">
+                gearbox = #{gearbox,jdbcType=VARCHAR},
+            </if>
+            <if test="displacement != null">
+                displacement = #{displacement,jdbcType=VARCHAR},
+            </if>
+            <if test="fuelType != null">
+                fuelType = #{fuelType,jdbcType=VARCHAR},
+            </if>
+            <if test="emission != null">
+                emission = #{emission,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="configureValue != null">
+                configureValue = #{configureValue,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where carModelId = #{carModelId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hschefu.common.DataItem">
+    update carModel
+    set carModelName = #{carmodelname,jdbcType=VARCHAR},
+      brandId = #{brandid,jdbcType=BIGINT},
+      brandEnName = #{brandenname,jdbcType=VARCHAR},
+      brandCnName = #{brandcnname,jdbcType=VARCHAR},
+      carSystemId = #{carsystemid,jdbcType=BIGINT},
+      carSystemName = #{carsystemname,jdbcType=VARCHAR},
+      carSystemCategory = #{carsystemcategory,jdbcType=VARCHAR},
+      carSystemYearId = #{carsystemyearid,jdbcType=BIGINT},
+      Year = #{year,jdbcType=VARCHAR},
+      Price = #{price,jdbcType=DOUBLE},
+      seatNumber = #{seatnumber,jdbcType=INTEGER},
+      images = #{images,jdbcType=VARCHAR},
+      gearbox = #{gearbox,jdbcType=VARCHAR},
+      displacement = #{displacement,jdbcType=VARCHAR},
+      fuelType = #{fueltype,jdbcType=VARCHAR},
+      emission = #{emission,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      configureValue = #{configurevalue,jdbcType=VARCHAR}
+    where carModelId = #{carmodelid,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem">
+    update carModel
+    set carModelName = #{carmodelname,jdbcType=VARCHAR},
+      brandId = #{brandid,jdbcType=BIGINT},
+      brandEnName = #{brandenname,jdbcType=VARCHAR},
+      brandCnName = #{brandcnname,jdbcType=VARCHAR},
+      carSystemId = #{carsystemid,jdbcType=BIGINT},
+      carSystemName = #{carsystemname,jdbcType=VARCHAR},
+      carSystemCategory = #{carsystemcategory,jdbcType=VARCHAR},
+      carSystemYearId = #{carsystemyearid,jdbcType=BIGINT},
+      Year = #{year,jdbcType=VARCHAR},
+      Price = #{price,jdbcType=DOUBLE},
+      seatNumber = #{seatnumber,jdbcType=INTEGER},
+      images = #{images,jdbcType=VARCHAR},
+      gearbox = #{gearbox,jdbcType=VARCHAR},
+      displacement = #{displacement,jdbcType=VARCHAR},
+      fuelType = #{fueltype,jdbcType=VARCHAR},
+      emission = #{emission,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+    where carModelId = #{carmodelid,jdbcType=BIGINT}
+  </update>
+</mapper>

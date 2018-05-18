@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem" >
+    <id column="carId" property="carid" jdbcType="BIGINT" />
+    <result column="carModelId" property="carmodelid" jdbcType="BIGINT" />
+    <result column="carModelName" property="carmodelname" jdbcType="VARCHAR" />
+    <result column="releaseTime" property="releasetime" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="imageUrls" property="imageurls" jdbcType="VARCHAR" />
+    <result column="registerDate" property="registerdate" jdbcType="VARCHAR" />
+    <result column="mileage" property="mileage" jdbcType="DOUBLE" />
+    <result column="cityId" property="cityid" jdbcType="VARCHAR" />
+    <result column="cityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="examiningReport" property="examiningreport" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="audit" property="audit" jdbcType="VARCHAR" />
+    <result column="extraInfo" property="extrainfo" jdbcType="VARCHAR" />
+    <result column="detectorId" property="detectorid" jdbcType="BIGINT" />
+    <result column="detectorName" property="detectorname" jdbcType="VARCHAR" />
+    <result column="appraiserId" property="appraiserid" jdbcType="BIGINT" />
+    <result column="appraiserName" property="appraisername" jdbcType="VARCHAR" />
+    <result column="carSn" property="carsn" jdbcType="VARCHAR" />
+    <result column="repId" property="repid" jdbcType="BIGINT" />
+    <result column="repName" property="repname" jdbcType="VARCHAR" />
+    <result column="buyerId" property="buyerid" jdbcType="BIGINT" />
+    <result column="buyerName" property="buyername" jdbcType="VARCHAR" />
+    <result column="sellerId" property="sellerid" jdbcType="BIGINT" />
+    <result column="sellerName" property="sellername" jdbcType="VARCHAR" />
+    <result column="salerId" property="salerid" jdbcType="BIGINT" />
+    <result column="salerName" property="salername" jdbcType="VARCHAR" />
+    <result column="appraisePrice" property="appraiseprice" jdbcType="DOUBLE" />
+    <result column="vendorPrice" property="vendorprice" jdbcType="DOUBLE" />
+    <result column="labels" property="labels" jdbcType="VARCHAR" />
+    <result column="sensitive" property="sensitive" jdbcType="VARCHAR" />
+    <result column="lpnCityId" property="lpncityid" jdbcType="VARCHAR" />
+    <result column="lpnCityName" property="lpncityname" jdbcType="VARCHAR" />
+    <result column="belongType" property="belongtype" jdbcType="INTEGER" />
+    <result column="storeId" property="storeid" jdbcType="BIGINT" />
+    <result column="storeName" property="storename" jdbcType="VARCHAR" />
+    <result column="shelfApply" property="shelfapply" jdbcType="INTEGER" />
+    <result column="maintainStatus" property="maintainstatus" jdbcType="INTEGER" />
+    <result column="bindOrder" property="bindorder" jdbcType="INTEGER" />
+    <result column="minPrice" property="minprice" jdbcType="DOUBLE" />
+    <result column="orderId" property="orderid" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="lastPrice" property="lastprice" jdbcType="DOUBLE" />
+    <result column="seeNumber" property="seenumber" jdbcType="INTEGER" />
+    <result column="appraisePriceContent" property="appraisepricecontent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    carId, carModelId, carModelName, releaseTime, price, imageUrls, registerDate, mileage, 
+    cityId, cityName, `status`, `level`, examiningReport, color, audit, extraInfo, detectorId, 
+    detectorName, appraiserId, appraiserName, carSn, repId, repName, buyerId, buyerName, 
+    sellerId, sellerName, salerId, salerName, appraisePrice, vendorPrice, labels, `sensitive`, 
+    lpnCityId, lpnCityName, belongType, storeId, storeName, shelfApply, maintainStatus, 
+    bindOrder, minPrice, orderId, createTime, lastPrice, seeNumber, appraisePriceContent
+  </sql>
+  <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from car
+    where carId = #{carid,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from car
+    where carId = #{carid,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <insert id="insertCar" parameterType="com.hschefu.common.DataItem" >
+    insert into car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+      <if test="carmodelid != null" >
+        carModelId,
+      </if>
+      <if test="carmodelname != null" >
+        carModelName,
+      </if>
+      <if test="releasetime != null" >
+        releaseTime,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="imageurls != null" >
+        imageUrls,
+      </if>
+      <if test="registerdate != null" >
+        registerDate,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="cityid != null" >
+        cityId,
+      </if>
+      <if test="cityname != null" >
+        cityName,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="examiningreport != null" >
+        examiningReport,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="extrainfo != null" >
+        extraInfo,
+      </if>
+      <if test="detectorid != null" >
+        detectorId,
+      </if>
+      <if test="detectorname != null" >
+        detectorName,
+      </if>
+      <if test="appraiserid != null" >
+        appraiserId,
+      </if>
+      <if test="appraisername != null" >
+        appraiserName,
+      </if>
+      <if test="carsn != null" >
+        carSn,
+      </if>
+      <if test="repid != null" >
+        repId,
+      </if>
+      <if test="repname != null" >
+        repName,
+      </if>
+      <if test="buyerid != null" >
+        buyerId,
+      </if>
+      <if test="buyername != null" >
+        buyerName,
+      </if>
+      <if test="sellerid != null" >
+        sellerId,
+      </if>
+      <if test="sellername != null" >
+        sellerName,
+      </if>
+      <if test="salerid != null" >
+        salerId,
+      </if>
+      <if test="salername != null" >
+        salerName,
+      </if>
+      <if test="appraiseprice != null" >
+        appraisePrice,
+      </if>
+      <if test="vendorprice != null" >
+        vendorPrice,
+      </if>
+      <if test="labels != null" >
+        labels,
+      </if>
+      <if test="sensitive != null" >
+        sensitive,
+      </if>
+      <if test="lpncityid != null" >
+        lpnCityId,
+      </if>
+      <if test="lpncityname != null" >
+        lpnCityName,
+      </if>
+      <if test="belongtype != null" >
+        belongType,
+      </if>
+      <if test="storeid != null" >
+        storeId,
+      </if>
+      <if test="storename != null" >
+        storeName,
+      </if>
+      <if test="shelfapply != null" >
+        shelfApply,
+      </if>
+      <if test="maintainstatus != null" >
+        maintainStatus,
+      </if>
+      <if test="bindorder != null" >
+        bindOrder,
+      </if>
+      <if test="minprice != null" >
+        minPrice,
+      </if>
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="lastprice != null" >
+        lastPrice,
+      </if>
+      <if test="seenumber != null" >
+        seeNumber,
+      </if>
+      <if test="appraisepricecontent != null" >
+        appraisePriceContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="carmodelid != null" >
+        #{carmodelid,jdbcType=BIGINT},
+      </if>
+      <if test="carmodelname != null" >
+        #{carmodelname,jdbcType=VARCHAR},
+      </if>
+      <if test="releasetime != null" >
+        #{releasetime,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="imageurls != null" >
+        #{imageurls,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        #{mileage,jdbcType=DOUBLE},
+      </if>
+      <if test="cityid != null" >
+        #{cityid,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="examiningreport != null" >
+        #{examiningreport,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="extrainfo != null" >
+        #{extrainfo,jdbcType=VARCHAR},
+      </if>
+      <if test="detectorid != null" >
+        #{detectorid,jdbcType=BIGINT},
+      </if>
+      <if test="detectorname != null" >
+        #{detectorname,jdbcType=VARCHAR},
+      </if>
+      <if test="appraiserid != null" >
+        #{appraiserid,jdbcType=BIGINT},
+      </if>
+      <if test="appraisername != null" >
+        #{appraisername,jdbcType=VARCHAR},
+      </if>
+      <if test="carsn != null" >
+        #{carsn,jdbcType=VARCHAR},
+      </if>
+      <if test="repid != null" >
+        #{repid,jdbcType=BIGINT},
+      </if>
+      <if test="repname != null" >
+        #{repname,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        #{buyerid,jdbcType=BIGINT},
+      </if>
+      <if test="buyername != null" >
+        #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerid != null" >
+        #{sellerid,jdbcType=BIGINT},
+      </if>
+      <if test="sellername != null" >
+        #{sellername,jdbcType=VARCHAR},
+      </if>
+      <if test="salerid != null" >
+        #{salerid,jdbcType=BIGINT},
+      </if>
+      <if test="salername != null" >
+        #{salername,jdbcType=VARCHAR},
+      </if>
+      <if test="appraiseprice != null" >
+        #{appraiseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="vendorprice != null" >
+        #{vendorprice,jdbcType=DOUBLE},
+      </if>
+      <if test="labels != null" >
+        #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="sensitive != null" >
+        #{sensitive,jdbcType=VARCHAR},
+      </if>
+      <if test="lpncityid != null" >
+        #{lpncityid,jdbcType=VARCHAR},
+      </if>
+      <if test="lpncityname != null" >
+        #{lpncityname,jdbcType=VARCHAR},
+      </if>
+      <if test="belongtype != null" >
+        #{belongtype,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null" >
+        #{storeid,jdbcType=BIGINT},
+      </if>
+      <if test="storename != null" >
+        #{storename,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfapply != null" >
+        #{shelfapply,jdbcType=INTEGER},
+      </if>
+      <if test="maintainstatus != null" >
+        #{maintainstatus,jdbcType=INTEGER},
+      </if>
+      <if test="bindorder != null" >
+        #{bindorder,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastprice != null" >
+        #{lastprice,jdbcType=DOUBLE},
+      </if>
+      <if test="seenumber != null" >
+        #{seenumber,jdbcType=INTEGER},
+      </if>
+      <if test="appraisepricecontent != null" >
+        #{appraisepricecontent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem" >
+    update car
+    <set >
+      <if test="carmodelid != null" >
+        carModelId = #{carmodelid,jdbcType=BIGINT},
+      </if>
+      <if test="carmodelname != null" >
+        carModelName = #{carmodelname,jdbcType=VARCHAR},
+      </if>
+      <if test="releasetime != null" >
+        releaseTime = #{releasetime,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="imageurls != null" >
+        imageUrls = #{imageurls,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        registerDate = #{registerdate,jdbcType=VARCHAR},
+      </if>
+      <if test="mileage != null" >
+        mileage = #{mileage,jdbcType=DOUBLE},
+      </if>
+      <if test="cityid != null" >
+        cityId = #{cityid,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        cityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="examiningreport != null" >
+        examiningReport = #{examiningreport,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="extrainfo != null" >
+        extraInfo = #{extrainfo,jdbcType=VARCHAR},
+      </if>
+      <if test="detectorid != null" >
+        detectorId = #{detectorid,jdbcType=BIGINT},
+      </if>
+      <if test="detectorname != null" >
+        detectorName = #{detectorname,jdbcType=VARCHAR},
+      </if>
+      <if test="appraiserid != null" >
+        appraiserId = #{appraiserid,jdbcType=BIGINT},
+      </if>
+      <if test="appraisername != null" >
+        appraiserName = #{appraisername,jdbcType=VARCHAR},
+      </if>
+      <if test="carsn != null" >
+        carSn = #{carsn,jdbcType=VARCHAR},
+      </if>
+      <if test="repid != null" >
+        repId = #{repid,jdbcType=BIGINT},
+      </if>
+      <if test="repname != null" >
+        repName = #{repname,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        buyerId = #{buyerid,jdbcType=BIGINT},
+      </if>
+      <if test="buyername != null" >
+        buyerName = #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerid != null" >
+        sellerId = #{sellerid,jdbcType=BIGINT},
+      </if>
+      <if test="sellername != null" >
+        sellerName = #{sellername,jdbcType=VARCHAR},
+      </if>
+      <if test="salerid != null" >
+        salerId = #{salerid,jdbcType=BIGINT},
+      </if>
+      <if test="salername != null" >
+        salerName = #{salername,jdbcType=VARCHAR},
+      </if>
+      <if test="appraiseprice != null" >
+        appraisePrice = #{appraiseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="vendorprice != null" >
+        vendorPrice = #{vendorprice,jdbcType=DOUBLE},
+      </if>
+      <if test="labels != null" >
+        labels = #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="sensitive != null" >
+        sensitive = #{sensitive,jdbcType=VARCHAR},
+      </if>
+      <if test="lpncityid != null" >
+        lpnCityId = #{lpncityid,jdbcType=VARCHAR},
+      </if>
+      <if test="lpncityname != null" >
+        lpnCityName = #{lpncityname,jdbcType=VARCHAR},
+      </if>
+      <if test="belongtype != null" >
+        belongType = #{belongtype,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null" >
+        storeId = #{storeid,jdbcType=BIGINT},
+      </if>
+      <if test="storename != null" >
+        storeName = #{storename,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfapply != null" >
+        shelfApply = #{shelfapply,jdbcType=INTEGER},
+      </if>
+      <if test="maintainstatus != null" >
+        maintainStatus = #{maintainstatus,jdbcType=INTEGER},
+      </if>
+      <if test="bindorder != null" >
+        bindOrder = #{bindorder,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        minPrice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderid != null" >
+        orderId = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastprice != null" >
+        lastPrice = #{lastprice,jdbcType=DOUBLE},
+      </if>
+      <if test="seenumber != null" >
+        seeNumber = #{seenumber,jdbcType=INTEGER},
+      </if>
+      <if test="appraisepricecontent != null" >
+        appraisePriceContent = #{appraisepricecontent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carId = #{carid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem" >
+    update car
+    set carModelId = #{carmodelid,jdbcType=BIGINT},
+      carModelName = #{carmodelname,jdbcType=VARCHAR},
+      releaseTime = #{releasetime,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      imageUrls = #{imageurls,jdbcType=VARCHAR},
+      registerDate = #{registerdate,jdbcType=VARCHAR},
+      mileage = #{mileage,jdbcType=DOUBLE},
+      cityId = #{cityid,jdbcType=VARCHAR},
+      cityName = #{cityname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR},
+      examiningReport = #{examiningreport,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      audit = #{audit,jdbcType=VARCHAR},
+      extraInfo = #{extrainfo,jdbcType=VARCHAR},
+      detectorId = #{detectorid,jdbcType=BIGINT},
+      detectorName = #{detectorname,jdbcType=VARCHAR},
+      appraiserId = #{appraiserid,jdbcType=BIGINT},
+      appraiserName = #{appraisername,jdbcType=VARCHAR},
+      carSn = #{carsn,jdbcType=VARCHAR},
+      repId = #{repid,jdbcType=BIGINT},
+      repName = #{repname,jdbcType=VARCHAR},
+      buyerId = #{buyerid,jdbcType=BIGINT},
+      buyerName = #{buyername,jdbcType=VARCHAR},
+      sellerId = #{sellerid,jdbcType=BIGINT},
+      sellerName = #{sellername,jdbcType=VARCHAR},
+      salerId = #{salerid,jdbcType=BIGINT},
+      salerName = #{salername,jdbcType=VARCHAR},
+      appraisePrice = #{appraiseprice,jdbcType=DOUBLE},
+      vendorPrice = #{vendorprice,jdbcType=DOUBLE},
+      labels = #{labels,jdbcType=VARCHAR},
+      sensitive = #{sensitive,jdbcType=VARCHAR},
+      lpnCityId = #{lpncityid,jdbcType=VARCHAR},
+      lpnCityName = #{lpncityname,jdbcType=VARCHAR},
+      belongType = #{belongtype,jdbcType=INTEGER},
+      storeId = #{storeid,jdbcType=BIGINT},
+      storeName = #{storename,jdbcType=VARCHAR},
+      shelfApply = #{shelfapply,jdbcType=INTEGER},
+      maintainStatus = #{maintainstatus,jdbcType=INTEGER},
+      bindOrder = #{bindorder,jdbcType=INTEGER},
+      minPrice = #{minprice,jdbcType=DOUBLE},
+      orderId = #{orderid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      lastPrice = #{lastprice,jdbcType=DOUBLE},
+      seeNumber = #{seenumber,jdbcType=INTEGER},
+      appraisePriceContent = #{appraisepricecontent,jdbcType=VARCHAR}
+    where carId = #{carid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getCarListByPager" resultMap="BaseResultMap"
+		parameterType="com.hschefu.common.DataItem">
+		select
+		carId, carModelName, price, registerDate, mileage, cityName, status, level, appraisePrice, color, repName
+		from car where 1=1
+
+		<if test="carModelName != null and carModelName != ''">
+			and carModelName like concat('%', #{carModelName} ,'%')
+		</if>
+		<if test="repName != null and repName != ''">
+			and repName = #{repName}
+		</if>
+		<if test="cityName != null and cityName != ''">
+			and cityName = #{cityName}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<!-- order by brandSort -->
+		LIMIT #{offset}, #{pageSize}
+		
+	</select>
+
+
+	<select id="getCarListByPagerCount" resultType="java.lang.Long"
+		parameterType="com.hschefu.common.DataItem">
+		select
+		count(1)
+		from car where 1=1
+		<if test="carModelName != null and carModelName != ''">
+			and carModelName like concat('%', #{carModelName} ,'%')
+		</if>
+		<if test="repName != null and repName != ''">
+			and repName = #{repName}
+		</if>
+		<if test="cityName != null and cityName != ''">
+			and cityName = #{cityName}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+	</select>
+</mapper>

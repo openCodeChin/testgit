@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.hschefu.car.provider.repository.mapper.BrandMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hschefu.common.DataItem">
+		<id column="brandId" property="brandid" jdbcType="BIGINT" />
+		<result column="brandPinyin" property="brandpinyin"
+			jdbcType="VARCHAR" />
+		<result column="brandCnName" property="brandcnname"
+			jdbcType="VARCHAR" />
+		<result column="brandEnName" property="brandenname"
+			jdbcType="VARCHAR" />
+		<result column="brandImg" property="brandimg"
+			jdbcType="VARCHAR" />
+		<result column="brandSort" property="brandsort"
+			jdbcType="INTEGER" />
+		<result column="brandNationality" property="brandnationality"
+			jdbcType="VARCHAR" />
+		<result column="brandInitial" property="brandinitial"
+			jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime"
+			jdbcType="TIMESTAMP" />
+        <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />	
+		<result column="brandStatus" property="brandstatus"
+			jdbcType="INTEGER" />
+		<result column="manufacturerId" property="manufacturerid"
+			jdbcType="BIGINT" />
+		<result column="manufacturerCnName"
+			property="manufacturercnname" jdbcType="VARCHAR" />
+		<result column="manufacturerEnName"
+			property="manufacturerenname" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		brandId, brandPinyin, brandCnName, brandEnName, brandImg,
+		brandSort,
+		brandNationality,
+		brandInitial, createTime,modifyTime, brandStatus,
+		manufacturerId, manufacturerCnName,
+		manufacturerEnName
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        <include refid="Base_Column_List"/>
+        from brand
+        where brandId = #{brandid,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getBrandByPager" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        <include refid="Base_Column_List"/>
+        from brand where 1=1
+
+        <if test="brandCnName != null and brandCnName != ''">
+            and brandCnName like concat('%', #{brandCnName} ,'%')
+        </if>
+        <if test="brandNationality != null and brandNationality != ''">
+            and brandNationality = #{brandNationality}
+        </if>
+
+        <if test="brandStatus != null and brandStatus != ''">
+            and brandStatus = #{brandStatus}
+        </if>
+
+
+        <choose>
+            <when test="sidx!=null and sidx!=''">
+                order by ${sidx} ${sord}
+            </when>
+            <otherwise>
+                order by brandSort
+            </otherwise>
+        </choose>
+
+
+        <!-- 判断是否分页 -->
+        <if test="isPager==null or isPager==''">
+            LIMIT #{offset}, #{pageSize}
+        </if>
+
+
+    </select>
+
+
+    <select id="getBrandByPagerCount" resultType="java.lang.Long"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        count(1)
+        from brand where 1=1
+        <if test="brandCnName != null and brandCnName != ''">
+            and brandCnName like concat('%', #{brandCnName} ,'%')
+        </if>
+        <if test="brandNationality != null and brandNationality != ''">
+            and brandNationality = #{brandNationality}
+        </if>
+        <if test="brandStatus != null and brandStatus != ''">
+            and brandStatus = #{brandStatus}
+        </if>
+
+    </select>
+
+
+    <!-- <delete id="delBrandById" parameterType="java.lang.Long">
+        delete from brand
+        where brandId = #{brandId,jdbcType=BIGINT}
+    </delete> -->
+    <!-- 逻辑删除 -->
+
+    <update id="delBrandById" parameterType="com.hschefu.common.DataItem">
+        update brand
+        <set>
+            <if test="brandStatus != null">
+                brandStatus = #{brandStatus ,jdbcType=INTEGER},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime = #{modifyTime ,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where brandId = #{brandId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertBrand"
+            parameterType="com.hschefu.common.DataItem">
+		insert into brand (brandId, brandPinyin, brandCnName,
+		brandEnName, brandImg, brandSort,
+		brandNationality, brandInitial,
+		createTime,
+		brandStatus, manufacturerId, manufacturerCnName,
+		manufacturerEnName)
+		values (#{brandid,jdbcType=BIGINT},
+		#{brandpinyin,jdbcType=VARCHAR},
+		#{brandcnname,jdbcType=VARCHAR},
+		#{brandenname,jdbcType=VARCHAR}, #{brandimg,jdbcType=VARCHAR},
+		#{brandsort,jdbcType=INTEGER},
+		#{brandnationality,jdbcType=VARCHAR},
+		#{brandinitial,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+		#{brandstatus,jdbcType=INTEGER}, #{manufacturerid,jdbcType=BIGINT},
+		#{manufacturercnname,jdbcType=VARCHAR},
+		#{manufacturerenname,jdbcType=VARCHAR})
+	</insert>
+    <insert id="insertSelective"
+            parameterType="com.hschefu.common.DataItem">
+        insert into brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="brandPinyin != null">
+                brandPinyin,
+            </if>
+            <if test="brandCnName != null">
+                brandCnName,
+            </if>
+            <if test="brandEnName != null">
+                brandEnName,
+            </if>
+            <if test="brandImg != null">
+                brandImg,
+            </if>
+            <if test="brandSort != null">
+                brandSort,
+            </if>
+            <if test="brandNationality != null">
+                brandNationality,
+            </if>
+            <if test="brandInitial != null">
+                brandInitial,
+            </if>
+
+            createTime,
+
+            <if test="brandStatus != null">
+                brandStatus,
+            </if>
+            <if test="manufacturerId != null">
+                manufacturerId,
+            </if>
+            <if test="manufacturerCnName != null">
+                manufacturerCnName,
+            </if>
+            <if test="manufacturerEnName != null">
+                manufacturerEnName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="brandPinyin != null">
+                #{brandPinyin},
+            </if>
+            <if test="brandCnName != null">
+                #{brandCnName},
+            </if>
+            <if test="brandEnName != null">
+                #{brandEnName},
+            </if>
+            <if test="brandImg != null">
+                #{brandImg},
+            </if>
+            <if test="brandSort != null">
+                #{brandSort},
+            </if>
+            <if test="brandNationality != null">
+                #{brandNationality},
+            </if>
+            <if test="brandInitial != null">
+                #{brandInitial},
+            </if>
+            now()
+            ,
+
+            <if test="brandStatus != null">
+                #{brandStatus},
+            </if>
+            <if test="manufacturerId != null">
+                #{manufacturerId},
+            </if>
+            <if test="manufacturerCnName != null">
+                #{manufacturerCnName},
+            </if>
+            <if test="manufacturerEnName != null">
+                #{manufacturerEnName},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.hschefu.common.DataItem">
+        update brand
+        <set>
+            <if test="brandpinyin != null">
+                brandPinyin = #{brandpinyin,jdbcType=VARCHAR},
+            </if>
+            <if test="brandcnname != null">
+                brandCnName = #{brandcnname,jdbcType=VARCHAR},
+            </if>
+            <if test="brandenname != null">
+                brandEnName = #{brandenname,jdbcType=VARCHAR},
+            </if>
+            <if test="brandimg != null">
+                brandImg = #{brandimg,jdbcType=VARCHAR},
+            </if>
+            <if test="brandsort != null">
+                brandSort = #{brandsort,jdbcType=INTEGER},
+            </if>
+            <if test="brandnationality != null">
+                brandNationality = #{brandnationality,jdbcType=VARCHAR},
+            </if>
+            <if test="brandinitial != null">
+                brandInitial = #{brandinitial,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandstatus != null">
+                brandStatus = #{brandstatus,jdbcType=INTEGER},
+            </if>
+            <if test="manufacturerid != null">
+                manufacturerId = #{manufacturerid,jdbcType=BIGINT},
+            </if>
+            <if test="manufacturercnname != null">
+                manufacturerCnName =
+                #{manufacturercnname,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturerenname != null">
+                manufacturerEnName =
+                #{manufacturerenname,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where brandId = #{brandid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.hschefu.common.DataItem">
+		update brand
+		set brandPinyin =
+		#{brandpinyin,jdbcType=VARCHAR},
+		brandCnName =
+		#{brandcnname,jdbcType=VARCHAR},
+		brandEnName =
+		#{brandenname,jdbcType=VARCHAR},
+		brandImg =
+		#{brandimg,jdbcType=VARCHAR},
+		brandSort =
+		#{brandsort,jdbcType=INTEGER},
+		brandNationality =
+		#{brandnationality,jdbcType=VARCHAR},
+		brandInitial =
+		#{brandinitial,jdbcType=VARCHAR},
+		createTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		brandStatus =
+		#{brandstatus,jdbcType=INTEGER},
+		manufacturerId =
+		#{manufacturerid,jdbcType=BIGINT},
+		manufacturerCnName =
+		#{manufacturercnname,jdbcType=VARCHAR},
+		manufacturerEnName =
+		#{manufacturerenname,jdbcType=VARCHAR}
+		where brandId =
+		#{brandid,jdbcType=BIGINT}
+	</update>
+</mapper>

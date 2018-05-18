@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hschefu.car.provider.repository.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="com.hschefu.common.DataItem">
+        <id column="articleId" property="articleId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="imgUrlNumber" property="imgUrlNumber" jdbcType="INTEGER"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="isTop" property="isTop" jdbcType="INTEGER"/>
+        <result column="isRecommend" property="isRecommend" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    articleId, title, content, createTime, status, imgUrl, imgUrlNumber, author, introduce, 
+    isTop, isRecommend
+  </sql>
+
+
+    <select id="getArticleByPager" resultMap="BaseResultMap"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where 1=1
+
+        <if test="title!=null and title != ''">
+           and  title like concat('%', #{title} ,'%')
+        </if>
+
+
+        <choose>
+            <when test="sidx!=null and sidx!=''">
+                order by ${sidx} ${sord}
+            </when>
+            <otherwise>
+                order by createTime
+            </otherwise>
+        </choose>
+
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getArticleByPagerCount"
+            resultType="java.lang.Long"
+            parameterType="com.hschefu.common.DataItem">
+        select
+        count(1)
+        from article
+
+        where 1=1
+
+        <if test="title!=null and title != ''">
+          and  title like concat('%', #{title} ,'%')
+        </if>
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where articleId = #{articleid,jdbcType=BIGINT}
+    </select>
+    <!--按照id删除多条信息-->
+    <delete id="delArticleByIds" parameterType="java.lang.Long">
+    delete from article
+    where articleId in
+
+        <foreach collection="articleIdsList" item="articleId" index="index"
+                 open="(" close=")" separator=",">
+            #{articleId}
+        </foreach>
+
+    </delete>
+    <insert id="insert" parameterType="com.hschefu.common.DataItem">
+    insert into article (articleId, title, content, 
+      createTime, status, imgUrl, 
+      imgUrlNumber, author, introduce, 
+      isTop, isRecommend)
+    values (#{articleid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, 
+      #{imgurlnumber,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, 
+      #{istop,jdbcType=INTEGER}, #{isrecommend,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hschefu.common.DataItem">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleid != null">
+                articleId,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="imgurl != null">
+                imgUrl,
+            </if>
+            <if test="imgurlnumber != null">
+                imgUrlNumber,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="introduce != null">
+                introduce,
+            </if>
+            <if test="istop != null">
+                isTop,
+            </if>
+            <if test="isrecommend != null">
+                isRecommend,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleid != null">
+                #{articleid,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="imgurl != null">
+                #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="imgurlnumber != null">
+                #{imgurlnumber,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null">
+                #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="istop != null">
+                #{istop,jdbcType=INTEGER},
+            </if>
+            <if test="isrecommend != null">
+                #{isrecommend,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hschefu.common.DataItem">
+        update article
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="imgurl != null">
+                imgUrl = #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="imgurlnumber != null">
+                imgUrlNumber = #{imgurlnumber,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null">
+                introduce = #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="istop != null">
+                isTop = #{istop,jdbcType=INTEGER},
+            </if>
+            <if test="isrecommend != null">
+                isRecommend = #{isrecommend,jdbcType=INTEGER},
+            </if>
+        </set>
+        where articleId = #{articleid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hschefu.common.DataItem">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      imgUrlNumber = #{imgurlnumber,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      isTop = #{istop,jdbcType=INTEGER},
+      isRecommend = #{isrecommend,jdbcType=INTEGER}
+    where articleId = #{articleid,jdbcType=BIGINT}
+  </update>
+</mapper>
